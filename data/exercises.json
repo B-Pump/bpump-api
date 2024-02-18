@@ -3,15 +3,15 @@
         "id": "burpees",
         "sugar": {
             "title": "Burpees",
-            "description": "Les burpees sont un exercice complet qui combine des mouvements de flexion, d'extension, de saut et de pompe. Commencez en position debout, effectuez une flexion, une pompe, un saut, puis répétez. Cet exercice est idéal pour le renforcement cardiovasculaire.",
+            "description": "Les burpees sont un exercice complet qui combine des mouvements de flexion, d'extension, de saut et de pompe. Commencez en position debout, effectuez une flexion, une pompe, un saut, puis r\u00e9p\u00e9tez. Cet exercice est id\u00e9al pour le renforcement cardiovasculaire.",
             "category": "Cardio",
             "difficulty": 4,
             "muscles": ["Quadriceps", "Pectoraux", "Deltoids", "Abdominaux"],
             "security": [
                 "Assurez-vous de maintenir une bonne forme tout au long de l'exercice.",
-                "Évitez de bloquer vos genoux lors de la phase de saut."
+                "\u00e9vitez de bloquer vos genoux lors de la phase de saut."
             ],
-            "needed": ["Aucun équipement requis"],
+            "needed": ["Aucun \u00e9quipement requis"],
             "energetic": {
                 "calories": 15
             }
@@ -39,13 +39,13 @@
         "id": "chinups",
         "sugar": {
             "title": "Chin ups",
-            "description": "Les chin ups sont similaires aux tractions, mais avec une prise de supination (paumes tournées vers vous). Cet exercice met davantage l'accent sur les muscles biceps. Effectuez une flexion des bras en tirant votre menton au-dessus de la barre.",
+            "description": "Les chin ups sont similaires aux tractions, mais avec une prise de supination (paumes tourn\u00e9es vers vous). Cet exercice met davantage l'accent sur les muscles biceps. Effectuez une flexion des bras en tirant votre menton au-dessus de la barre.",
             "category": "Haut du corps",
             "difficulty": 3,
             "muscles": ["Biceps", "Dos"],
             "security": [
                 "Assurez-vous de maintenir une bonne forme tout au long de l'exercice.",
-                "Évitez de balancer votre corps pour faciliter le mouvement."
+                "\u00e9vitez de balancer votre corps pour faciliter le mouvement."
             ],
             "energetic": {
                 "calories": 12
@@ -72,13 +72,13 @@
         "id": "deadlift",
         "sugar": {
             "title": "Deadlift",
-            "description": "Le deadlift (soulevé de terre) est un exercice de base qui cible les muscles du dos, des fesses, des ischio-jambiers et des lombaires. En partant d'une position debout, baissez-vous en gardant le dos droit pour saisir une barre, puis redressez-vous en soulevant la charge.",
+            "description": "Le deadlift (soulev\u00e9 de terre) est un exercice de base qui cible les muscles du dos, des fesses, des ischio-jambiers et des lombaires. En partant d'une position debout, baissez-vous en gardant le dos droit pour saisir une barre, puis redressez-vous en soulevant la charge.",
             "category": "Bas du corps",
             "difficulty": 4,
             "muscles": ["Dos", "Fesses", "Ischio-jambiers", "Lombaires"],
             "security": [
                 "Assurez-vous de garder le dos droit tout au long du mouvement.",
-                "Utilisez une technique appropriée pour soulever la charge et évitez de courber votre dos."
+                "Utilisez une technique appropri\u00e9e pour soulever la charge et \u00e9vitez de courber votre dos."
             ],
             "energetic": {
                 "calories": 20
@@ -105,15 +105,15 @@
         "id": "dips",
         "sugar": {
             "title": "Dips",
-            "description": "Les dips sont un exercice de musculation pour les triceps et les muscles de la poitrine. Utilisez des barres parallèles, abaissez votre corps en pliant les coudes, puis remontez en utilisant la force de vos bras.",
+            "description": "Les dips sont un exercice de musculation pour les triceps et les muscles de la poitrine. Utilisez des barres parall\u00e8les, abaissez votre corps en pliant les coudes, puis remontez en utilisant la force de vos bras.",
             "category": "Haut du corps",
             "difficulty": 3,
             "muscles": ["Triceps", "Pectoraux"],
             "security": [
                 "Assurez-vous de maintenir une bonne forme tout au long de l'exercice.",
-                "Évitez de verrouiller complètement vos coudes en haut du mouvement."
+                "\u00e9vitez de verrouiller compl\u00e8tement vos coudes en haut du mouvement."
             ],
-            "needed": ["Barres parallèles"],
+            "needed": ["Barres parall\u00e8les"],
             "energetic": {
                 "calories": 8
             }
@@ -139,15 +139,15 @@
         "id": "jumpingjacks",
         "sugar": {
             "title": "Jumping jacks",
-            "description": "Les jumping jacks sont un exercice cardiovasculaire qui engage tout le corps. Commencez en position debout, puis sautez en écartant les pieds sur le côté tout en levant les bras au-dessus de la tête. Revenez à la position de départ et répétez.",
+            "description": "Les jumping jacks sont un exercice cardiovasculaire qui engage tout le corps. Commencez en position debout, puis sautez en \u00e9cartant les pieds sur le côt\u00e9 tout en levant les bras au-dessus de la tête. Revenez \u00e0 la position de d\u00e9part et r\u00e9p\u00e9tez.",
             "category": "Cardio",
             "difficulty": 2,
-            "muscles": ["Jambes", "Fessiers", "Épaules", "Cardio"],
+            "muscles": ["Jambes", "Fessiers", "\u00e9paules", "Cardio"],
             "security": [
-                "Maintenez un rythme régulier pour maximiser les avantages cardiovasculaires.",
-                "Atterrissez doucement pour éviter tout impact excessif sur les articulations."
+                "Maintenez un rythme r\u00e9gulier pour maximiser les avantages cardiovasculaires.",
+                "Atterrissez doucement pour \u00e9viter tout impact excessif sur les articulations."
             ],
-            "needed": ["Aucun équipement requis"],
+            "needed": ["Aucun \u00e9quipement requis"],
             "energetic": {
                 "calories": 5
             }
@@ -173,13 +173,13 @@
         "id": "lsit",
         "sugar": {
             "title": "L-Sit",
-            "description": "Le L-Sit est un exercice de calisthénie qui cible les muscles du tronc, des hanches et des épaules. Asseyez-vous au sol, placez vos mains à côté des hanches, soulevez vos jambes en maintenant une position assise. Maintenez la position aussi longtemps que possible.",
-            "category": "Calisthénie",
+            "description": "Le L-Sit est un exercice de calisth\u00e9nie qui cible les muscles du tronc, des hanches et des \u00e9paules. Asseyez-vous au sol, placez vos mains \u00e0 côt\u00e9 des hanches, soulevez vos jambes en maintenant une position assise. Maintenez la position aussi longtemps que possible.",
+            "category": "Calisth\u00e9nie",
             "difficulty": 4,
-            "muscles": ["Tronc", "Hanches", "Épaules"],
+            "muscles": ["Tronc", "Hanches", "\u00e9paules"],
             "security": [
-                "Gardez les épaules en arrière et le dos droit pour éviter tout stress inutile.",
-                "Si vous êtes débutant, commencez avec des versions plus simples de l'exercice."
+                "Gardez les \u00e9paules en arri\u00e8re et le dos droit pour \u00e9viter tout stress inutile.",
+                "Si vous êtes d\u00e9butant, commencez avec des versions plus simples de l'exercice."
             ],
             "needed": ["Surface plane"],
             "energetic": {
@@ -207,15 +207,15 @@
         "id": "lunges",
         "sugar": {
             "title": "Fentes",
-            "description": "Les fentes sont un exercice qui cible les muscles des jambes et des fesses. Faites un pas en avant avec une jambe, pliez les deux genoux pour descendre en position accroupie, puis revenez à la position de départ et répétez de l'autre côté.",
+            "description": "Les fentes sont un exercice qui cible les muscles des jambes et des fesses. Faites un pas en avant avec une jambe, pliez les deux genoux pour descendre en position accroupie, puis revenez \u00e0 la position de d\u00e9part et r\u00e9p\u00e9tez de l'autre côt\u00e9.",
             "category": "Bas du corps",
             "difficulty": 2,
             "muscles": ["Quadriceps", "Ischio-jambiers", "Fessiers"],
             "security": [
                 "Gardez le dos droit pendant l'exercice.",
-                "Assurez-vous que le genou avant reste aligné avec la cheville pour éviter tout stress excessif."
+                "Assurez-vous que le genou avant reste align\u00e9 avec la cheville pour \u00e9viter tout stress excessif."
             ],
-            "needed": ["Aucun équipement requis"],
+            "needed": ["Aucun \u00e9quipement requis"],
             "energetic": {
                 "calories": 10
             }
@@ -241,15 +241,15 @@
         "id": "plank",
         "sugar": {
             "title": "Planche",
-            "description": "La planche est un exercice de gainage qui renforce les muscles de la ceinture abdominale, du dos et des épaules. Maintenez une position de planche en appui sur les avant-bras et les orteils, en veillant à maintenir le corps en ligne droite.",
+            "description": "La planche est un exercice de gainage qui renforce les muscles de la ceinture abdominale, du dos et des \u00e9paules. Maintenez une position de planche en appui sur les avant-bras et les orteils, en veillant \u00e0 maintenir le corps en ligne droite.",
             "category": "Core",
             "difficulty": 3,
-            "muscles": ["Ceinture abdominale", "Dos", "Épaules"],
+            "muscles": ["Ceinture abdominale", "Dos", "\u00e9paules"],
             "security": [
                 "Gardez le corps en ligne droite de la tête aux pieds.",
-                "Évitez de creuser ou de cambrer le bas du dos."
+                "\u00e9vitez de creuser ou de cambrer le bas du dos."
             ],
-            "needed": ["Aucun équipement requis"],
+            "needed": ["Aucun \u00e9quipement requis"],
             "energetic": {
                 "calories": 6
             }
@@ -275,13 +275,13 @@
         "id": "pullups",
         "sugar": {
             "title": "Tractions",
-            "description": "Les tractions sont un exercice efficace pour renforcer les muscles du dos, des épaules et des bras. Accrochez-vous à une barre fixe, tendez vos bras et tirez votre corps vers le haut en utilisant la force de vos muscles du dos et de vos bras.",
+            "description": "Les tractions sont un exercice efficace pour renforcer les muscles du dos, des \u00e9paules et des bras. Accrochez-vous \u00e0 une barre fixe, tendez vos bras et tirez votre corps vers le haut en utilisant la force de vos muscles du dos et de vos bras.",
             "category": "Haut du corps",
             "difficulty": 4,
-            "muscles": ["Dos", "Épaules", "Bras"],
+            "muscles": ["Dos", "\u00e9paules", "Bras"],
             "security": [
-                "Maintenez une bonne forme avec les épaules en arrière.",
-                "Évitez de balancer votre corps pour faciliter le mouvement."
+                "Maintenez une bonne forme avec les \u00e9paules en arri\u00e8re.",
+                "\u00e9vitez de balancer votre corps pour faciliter le mouvement."
             ],
             "needed": ["Barre fixe"],
             "energetic": {
@@ -309,15 +309,15 @@
         "id": "squats",
         "sugar": {
             "title": "Squats",
-            "description": "Les squats sont un exercice polyarticulaire qui cible les muscles des jambes, des fesses et du bas du dos. Tenez-vous debout, fléchissez vos genoux et vos hanches pour descendre en position accroupie, puis remontez.",
+            "description": "Les squats sont un exercice polyarticulaire qui cible les muscles des jambes, des fesses et du bas du dos. Tenez-vous debout, fl\u00e9chissez vos genoux et vos hanches pour descendre en position accroupie, puis remontez.",
             "category": "Bas du corps",
             "difficulty": 3,
             "muscles": ["Quadriceps", "Ischio-jambiers", "Fessiers", "Bas du dos"],
             "security": [
                 "Gardez le dos droit pendant l'exercice.",
-                "Assurez-vous que vos genoux suivent la direction de vos pieds pour éviter tout stress excessif."
+                "Assurez-vous que vos genoux suivent la direction de vos pieds pour \u00e9viter tout stress excessif."
             ],
-            "needed": ["Aucun équipement requis"],
+            "needed": ["Aucun \u00e9quipement requis"],
             "energetic": {
                 "calories": 12
             }

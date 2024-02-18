@@ -1,15 +1,17 @@
 from fastapi import FastAPI, HTTPException, Body, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from utils import get_user_file_path, load_user_data, save_user_data
 import os
 import bcrypt
 import json
-from utils import get_user_file_path, load_user_data, save_user_data
 
 app = FastAPI()
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 
 @app.get("/")
 def root():
-    return "Welcome to the B-Pump api ! 🏋️​"
+    return "Welcome to the B-Pump api !"
 
 class User(BaseModel):
     username: str
@@ -31,7 +33,32 @@ async def register(user: User):
             new_user = {
                 "username": user.username, 
                 "password": hashed_password.decode("utf-8"), 
-                "progs": []
+                "progs": [ # Two default programs 
+                    {
+                        "id": "cardio-intense",
+                        "title": "Cardio Intense",
+                        "description": "Un programme intense ax\u00e9 sur le renforcement cardiovasculaire.",
+                        "category": "Cardio",
+                        "difficulty": 4,
+                        "hint": [
+                            "Restez hydrat\u00e9 pendant l'entraînement.",
+                            "\u00c9coutez votre corps et ajustez l'intensit\u00e9 si n\u00e9cessaire.",
+                        ],
+                        "exercises": ["burpees", "jumpingjacks"],
+                    },
+                    {
+                        "id": "renfo-corps",
+                        "title": "Renfo du corps",
+                        "description": "Un programme ax\u00e9 sur le renforcement des muscles du haut du corps.",
+                        "category": "Haut du corps",
+                        "difficulty": 3,
+                        "hint": [
+                            "Assurez-vous de maintenir une bonne forme tout au long de l'exercice.",
+                            "\u00c9coutez votre corps et ajustez l'intensit\u00e9 si n\u00e9cessaire.",
+                        ],
+                        "exercises": ["chinups", "dips"],
+                    },
+                ]
             }
             save_user_data(user.username, new_user)
             return {"status": True, "user": new_user}
@@ -49,7 +76,7 @@ async def login(user: User):
         else:
             raise HTTPException(status_code=401, detail="Username or password incorrect")
     except HTTPException:
-        raise  # Re-raise HTTPException to maintain the status code and detail
+        raise
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail="Error while logging in")
