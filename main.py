@@ -122,7 +122,7 @@ async def add_exercise(exercise: schemas.ExerciseBase):
         print(e)
         raise HTTPException(status_code=500, detail="Error creating exercise")
     
-@app.get("/progs/{id}/{username}")
+@app.get("/progs/{id}")
 async def read_program(id: str, username: str, db: db_dependency):
     try:
         db_user = db.query(models.User).filter(models.User.username == username).first()
