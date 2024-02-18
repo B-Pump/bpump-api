@@ -30,7 +30,7 @@ def root():
 async def register(user_create: schemas.UserBase, db: db_dependency):
     try:
         hashed_password = bcrypt.hashpw(user_create.password.encode("utf-8"), bcrypt.gensalt())
-        default_programs = [
+        default_programs = [ # The two default programs
             {
                 "id": "cardio-intense",
                 "title": "Cardio Intense",
