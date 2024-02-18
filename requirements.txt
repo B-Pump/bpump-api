@@ -2,5 +2,6 @@ fastapi
 uvicorn
 sqlalchemy
 psycopg2
+python-dotenv
 bcrypt
 pydantic
