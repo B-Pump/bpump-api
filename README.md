@@ -43,7 +43,7 @@
 
 ## Getting Started
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
@@ -75,7 +75,7 @@ To get a local copy up and running follow these simple example steps.
 
 ## Contributing
 
-Contributions are not welcome as this is a project developed for school Olympiads. However, you can still report bugs if you find any by opening an issue.
+Contributions are not welcome as this is a project developed for school Olympiads. However, you can still report bugs if you find any by opening an issue. This would be greatly appreciated !
 
 ## License
 
