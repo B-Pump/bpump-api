@@ -66,11 +66,11 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
         raise HTTPException(status_code=500, detail=f"Failed to register user. Error: {str(e)}")
 
 @app.post("/login")
-async def login(username: str, password: str, db: db_dependency):
+async def login(user_create: schemas.UserBase, db: db_dependency):
     try:
-        user = db.query(models.User).filter(models.User.username == username).first()
+        user = db.query(models.User).filter(models.User.username == user_create.username).first()
 
-        if user and bcrypt.checkpw(password.encode("utf-8"), user.password.encode("utf-8")):
+        if user and bcrypt.checkpw(user_create.password.encode("utf-8"), user.password.encode("utf-8")):
             return {"message": "User logged in successfully"}
         else:
             raise HTTPException(status_code=401, detail="Invalid credentials")
