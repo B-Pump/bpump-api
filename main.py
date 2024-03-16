@@ -7,7 +7,6 @@ import database.models as models
 import database.schemas as schemas
 from database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
@@ -29,6 +28,9 @@ def root():
 @app.post("/register")
 async def register(user_create: schemas.UserBase, db: db_dependency):
     try:
+        if db.query(models.User).filter(models.User.username == user_create.username).first():
+            raise HTTPException(status_code=400, detail="This user already exists")
+        
         hashed_password = bcrypt.hashpw(user_create.password.encode("utf-8"), bcrypt.gensalt())
         default_programs = [ # The two default programs
             {
@@ -57,13 +59,10 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
         db.commit()
         db.refresh(db_user)
 
-        return {"message": "User registered successfully"}
-    except IntegrityError as e:
+        return {"status": True, "message": "User registered successfully"}
+    except Exception as error:
         db.rollback()
-        raise HTTPException(status_code=400, detail=f"Username '{user_create.username}' already exists.")
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to register user. Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to register user. Error {str(error)}")
 
 @app.post("/login")
 async def login(user_create: schemas.UserBase, db: db_dependency):
@@ -71,13 +70,13 @@ async def login(user_create: schemas.UserBase, db: db_dependency):
         user = db.query(models.User).filter(models.User.username == user_create.username).first()
 
         if user and bcrypt.checkpw(user_create.password.encode("utf-8"), user.password.encode("utf-8")):
-            return {"message": "User logged in successfully"}
+            return {"status": True, "message": "User logged in successfully"}
         else:
             raise HTTPException(status_code=401, detail="Invalid credentials")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to log in. Error: {str(e)}")
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Failed to log in. Error {str(error)}")
 
-@app.post("/add_program/{username}")
+@app.post("/add_program")
 async def add_program(username: str, program: schemas.ProgramBase, db: db_dependency):
     try:
         db_user = db.query(models.User).filter(models.User.username == username).first()
@@ -96,12 +95,12 @@ async def add_program(username: str, program: schemas.ProgramBase, db: db_depend
             db_user.programs = db_user.programs + [program_dict]
             db.commit()
             
-            return {"message": "Program added successfully"}
+            return {"status": True, "message": "Program added successfully"}
         else:
             raise HTTPException(status_code=404, detail="User not found")
-    except Exception as e:
+    except Exception as error:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to add program. Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to add program. Error {str(error)}")
     
 @app.post("/add_exercise")
 async def add_exercise(exercise: schemas.ExerciseBase):
@@ -117,10 +116,9 @@ async def add_exercise(exercise: schemas.ExerciseBase):
         with open("./data/exercises.json", "w") as file:
             json.dump(exercises, file, indent=2)
 
-        return {"message": "The exercise was added successfully"}
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail="Error creating exercise")
+        return {"status": True, "message": "The exercise was added successfully"}
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Failed to add exercise. Error {str(error)}")
     
 @app.get("/progs/{id}")
 async def read_program(id: str, username: str, db: db_dependency):
@@ -141,11 +139,8 @@ async def read_program(id: str, username: str, db: db_dependency):
                     raise HTTPException(status_code=404, detail=f"Program with id '{id}' not found")
             else:
                 raise HTTPException(status_code=404, detail="User or programs not found")
-    except HTTPException:
-        raise
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail="Error while reading programs")
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Error while reading programs. Error {str(error)}")
 
 
 @app.get("/exos/{id}")
@@ -162,8 +157,5 @@ async def read_exercise(id: str):
                     return exercise
                 else:
                     raise HTTPException(status_code=404, detail="Exercise not found")
-    except HTTPException:
-        raise
-    except Exception as e:
-        print(e)
-        raise HTTPException(status_code=500, detail="Error while reading exercises")
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Error while reading exercises. Error {str(error)}")
