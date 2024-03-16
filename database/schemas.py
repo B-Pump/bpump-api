@@ -14,10 +14,8 @@ class ProgramBase(BaseModel):
     hint: List[str]
     exercises: List[str]
 
-class EnergeticInfo(BaseModel):
-    calories: int
-
-class SugarInfo(BaseModel):
+class ExerciseBase(BaseModel):
+    id: str
     title: str
     description: str
     category: str
@@ -25,10 +23,6 @@ class SugarInfo(BaseModel):
     muscles: List[str]
     security: List[str]
     needed: List[str]
-    energetic: EnergeticInfo
-
-class ExerciseBase(BaseModel):
-    id: str
-    sugar: SugarInfo
-    cameraTargets: dict
-    projectorTargets: List[dict]
+    calories: int
+    camera: dict
+    projector: List[dict]

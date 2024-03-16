@@ -103,21 +103,17 @@ async def add_program(username: str, program: schemas.ProgramBase, db: db_depend
         raise HTTPException(status_code=500, detail=f"Failed to add program. Error {str(error)}")
     
 @app.post("/add_exercise")
-async def add_exercise(exercise: schemas.ExerciseBase):
+async def add_exercise(exercise: schemas.ExerciseBase, db: db_dependency):
     try:
-        with open("./data/exercises.json", "r") as file:
-            exercises = json.load(file)
-
-        if any(item["id"] == exercise.id for item in exercises):
+        if db.query(models.Exos).filter(models.Exos.id == exercise.id).first():
             raise HTTPException(status_code=400, detail="An exercise with this ID already exists")
 
-        exercises.append(exercise.dict())
-
-        with open("./data/exercises.json", "w") as file:
-            json.dump(exercises, file, indent=2)
+        db.add(models.Exos(**exercise.model_dump()))
+        db.commit()
 
         return {"status": True, "message": "The exercise was added successfully"}
     except Exception as error:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to add exercise. Error {str(error)}")
     
 @app.get("/progs/{id}")
@@ -144,18 +140,15 @@ async def read_program(id: str, username: str, db: db_dependency):
 
 
 @app.get("/exos/{id}")
-async def read_exercise(id: str):
+async def read_exercise(id: str, db: db_dependency):
     try:
         if id == "all":
-            with open("./data/exercises.json", "r") as file:
-                return json.load(file)
+            return db.query(models.Exos).all()
         else:
-            with open("./data/exercises.json", "r") as file:
-                exercises = json.load(file)
-                exercise = next((item for item in exercises if item["id"] == id), None)
-                if exercise:
-                    return exercise
-                else:
-                    raise HTTPException(status_code=404, detail="Exercise not found")
+            exercise = db.query(models.Exos).filter(models.Exos.id == id).first()
+            if exercise:
+                return exercise
+            else:
+                raise HTTPException(status_code=404, detail="Exercise not found")
     except Exception as error:
         raise HTTPException(status_code=500, detail=f"Error while reading exercises. Error {str(error)}")
