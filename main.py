@@ -66,6 +66,20 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
     except Exception as error:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to register user. Error {str(error)}")
+    
+@app.post("/delete")
+async def delete(username: str, db: db_dependency):
+    try:
+        user = db.query(models.Users).filter(models.Users.username == username).first()
+        if user:
+            db.query(models.Progs).filter(models.Progs.owner == username).delete()
+            db.delete(user)
+            db.commit()
+            return {"status": True, "message": "User and associated data deleted successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Failed to delete user. Error {str(error)}")
 
 @app.post("/login")
 async def login(user_create: schemas.UserBase, db: db_dependency):
