@@ -117,6 +117,24 @@ async def add_program(username: str, program: schemas.ProgramBase, db: db_depend
     except Exception as error:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to add program. Error {str(error)}")
+    
+@app.post("/remove_program")
+async def remove_program(username: str, id: str, db: db_dependency):
+    try:
+        if db.query(models.Users).filter(models.Users.username == username).first():
+            program = db.query(models.Progs).filter(models.Progs.id == id).first()
+            if program:
+                db.delete(program)
+                db.commit()
+
+                return {"status": True, "message": "Program removed successfully"}
+            else:
+                return {"status": True, "message": "Program not found"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to remove program. Error {str(error)}")
 
 @app.post("/add_exercise")
 async def add_exercise(exercise: schemas.ExerciseBase, db: db_dependency):
