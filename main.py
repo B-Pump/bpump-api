@@ -39,8 +39,8 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
                 description="Un programme intense axé sur le renforcement cardiovasculaire.",
                 category="Cardio",
                 difficulty=4,
-                hint="Restez hydraté pendant l'entraînement. Écoutez votre corps et ajustez l'intensité si nécessaire.",
-                exercises="burpees, jumpingjacks"
+                hint=["Restez hydraté pendant l'entraînement.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
+                exercises=["burpees", "jumpingjacks"]
             ),
             models.Progs(
                 owner=user_create.username,
@@ -49,8 +49,8 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
                 description="Un programme axé sur le renforcement des muscles du haut du corps.",
                 category="Haut du corps",
                 difficulty=3,
-                hint="Assurez-vous de maintenir une bonne forme tout au long de l'exercice. Écoutez votre corps et ajustez l'intensité si nécessaire.",
-                exercises="chinups, dips"
+                hint=["Assurez-vous de maintenir une bonne forme tout au long de l'exercice.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
+                exercises=["chinups", "dips"]
             )
         ]
         
