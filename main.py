@@ -129,7 +129,7 @@ async def remove_program(username: str, id: str, db: db_dependency):
 
                 return {"status": True, "message": "Program removed successfully"}
             else:
-                return {"status": True, "message": "Program not found"}
+                raise HTTPException(status_code=404, detail="Program not found")
         else:
             raise HTTPException(status_code=404, detail="User not found")
     except Exception as error:
