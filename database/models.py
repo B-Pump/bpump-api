@@ -30,6 +30,7 @@ class Exos(Base):
     description = Column(String, index=True, nullable=False)
     category = Column(String, index=True, nullable=False)
     difficulty = Column(Integer, nullable=False)
+    video = Column(String, nullable=False)
     muscles = Column(JSON, nullable=False)
     security = Column(JSON, nullable=False)
     needed = Column(JSON, nullable=False)
