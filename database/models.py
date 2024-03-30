@@ -12,8 +12,9 @@ class Progs(Base):
     __tablename__ = "progs"
 
     prog_id = Column(Integer, primary_key=True, nullable=False)
-    owner = Column(String, index=True, nullable=False)
     id = Column(String, index=True, nullable=False)
+    owner = Column(String, index=True, nullable=False)
+    icon = Column(String, nullable=False)
     title = Column(String, index=True, nullable=False)
     description = Column(String, index=True, nullable=False)
     category = Column(String, index=True, nullable=False)
@@ -26,6 +27,7 @@ class Exos(Base):
 
     exo_id = Column(Integer, primary_key=True, nullable=False)
     id = Column(String, index=True, unique=True, nullable=False)
+    icon = Column(String, nullable=False)
     title = Column(String, index=True, nullable=False)
     description = Column(String, index=True, nullable=False)
     category = Column(String, index=True, nullable=False)

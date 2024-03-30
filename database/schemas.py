@@ -7,6 +7,8 @@ class UserBase(BaseModel):
 
 class ProgramBase(BaseModel):
     id: str
+    owner: str
+    icon: str
     title: str
     description: str
     category: str
@@ -16,10 +18,12 @@ class ProgramBase(BaseModel):
 
 class ExerciseBase(BaseModel):
     id: str
+    icon: str
     title: str
     description: str
     category: str
     difficulty: int
+    video: str
     muscles: List[str]
     security: List[str]
     needed: List[str]

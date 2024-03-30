@@ -31,6 +31,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
             models.Progs(
                 owner=user_create.username,
                 id="default_1",
+                icon="https://i.imgur.com/BzzXIim.jpeg",
                 title="Cardio Intense",
                 description="Un programme intense axé sur le renforcement cardiovasculaire.",
                 category="Cardio",
@@ -41,6 +42,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
             models.Progs(
                 owner=user_create.username,
                 id="default_2",
+                icon="https://i.imgur.com/2JMl5XB.jpeg",
                 title="Renfo du corps",
                 description="Un programme axé sur le renforcement des muscles du haut du corps.",
                 category="Haut du corps",
@@ -94,7 +96,7 @@ async def read_program(id: str, username: str, db: db_dependency):
     try:
         if not db.query(models.Users).filter(models.Users.username == username).first():
             raise HTTPException(status_code=404, detail="User not found")
-
+ 
         if id == "all":
             return db.query(models.Progs).filter(models.Progs.owner == username).all()
         else:
@@ -113,6 +115,7 @@ async def add_program(username: str, program: schemas.ProgramBase, db: db_depend
             new_program = models.Progs(
                 id=program.title.lower().replace(" ", "-"),
                 owner=username,
+                icon=program.icon,
                 title=program.title,
                 description=program.description,
                 category=program.category,
@@ -136,6 +139,7 @@ async def edit_program(username: str, program: schemas.ProgramBase, db: db_depen
     try:
         existing_program = db.query(models.Progs).filter(models.Progs.owner == username, models.Progs.id == program.id).first()
         if existing_program:
+            existing_program.icon = program.icon
             existing_program.title = program.title
             existing_program.description = program.description
             existing_program.category = program.category
@@ -202,9 +206,18 @@ async def edit_exercise(exercise: schemas.ExerciseBase, db: db_dependency):
     try:
         existing_exercise = db.query(models.Exos).filter(models.Exos.id == exercise.id).first()
         if existing_exercise:
-            existing_exercise.name = exercise.name
+            existing_exercise.icon = exercise.icon
+            existing_exercise.title = exercise.title
             existing_exercise.description = exercise.description
-            # TODO: update everything
+            existing_exercise.category = exercise.category
+            existing_exercise.difficulty = exercise.difficulty
+            existing_exercise.video = exercise.video
+            existing_exercise.muscles = exercise.muscles
+            existing_exercise.security = exercise.security
+            existing_exercise.needed = exercise.needed
+            existing_exercise.calories = exercise.calories
+            existing_exercise.camera = exercise.camera
+            existing_exercise.projector = exercise.projector
 
             db.commit()
             return {"status": True, "message": "Exercise updated successfully"}
