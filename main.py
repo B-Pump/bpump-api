@@ -30,7 +30,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
         default_programs = [ # The two default programs
             models.Progs(
                 owner=user_create.username,
-                id="cardio-intense",
+                id="default_1",
                 title="Cardio Intense",
                 description="Un programme intense axé sur le renforcement cardiovasculaire.",
                 category="Cardio",
@@ -40,7 +40,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
             ),
             models.Progs(
                 owner=user_create.username,
-                id="renfo-corps",
+                id="default_2",
                 title="Renfo du corps",
                 description="Un programme axé sur le renforcement des muscles du haut du corps.",
                 category="Haut du corps",
