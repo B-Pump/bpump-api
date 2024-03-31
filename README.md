@@ -70,7 +70,7 @@ To get a local copy up and running follow these simple steps.
 
 -   Launch the server
     ```sh
-    uvicorn main:app
+    uvicorn main:app --reload
     ```
 
 ## Contributing
@@ -83,7 +83,7 @@ Distributed under the MIT License. See [`LICENSE`][license-url] for more informa
 
 ## Contact
 
-B-Pump - [b.pump.project@gmail.com](mailto:b.pump.project@gmail.com)
+B-Pump: [b.pump.project@gmail.com](mailto:b.pump.project@gmail.com)
 
 Org Link: [https://github.com/B-Pump](https://github.com/B-Pump)
 
@@ -93,4 +93,4 @@ Org Link: [https://github.com/B-Pump](https://github.com/B-Pump)
 [issues-url]: https://github.com/B-Pump/bpump-api/issues
 [license-shield]: https://img.shields.io/github/license/B-Pump/bpump-api.svg?style=for-the-badge
 [license-url]: https://github.com/B-Pump/bpump-api/blob/master/LICENSE
-[repo-screenshot]: https://black_hole-3kf-1-q4182424.deta.app/api/photo/7uoqrldv1mcp.png
+[repo-screenshot]: https://i.ibb.co/Y2n59kG/sss.png
