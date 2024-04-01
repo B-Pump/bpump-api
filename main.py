@@ -37,7 +37,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
                 category="Bas du corps",
                 difficulty=4,
                 hint=["Assure-toi de bien respirer pendant les exercices et concentre-toi sur la forme pour éviter les blessures.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
-                exercises=["squats", "lunges", "deadlift, jumpingjacks"]
+                exercises=["squats", "lunges", "deadlift", "jumpingjacks"]
             ),
             models.Progs(
                 owner=user_create.username,
