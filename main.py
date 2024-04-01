@@ -31,24 +31,24 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
             models.Progs(
                 owner=user_create.username,
                 id="default_1",
-                icon="https://i.imgur.com/BzzXIim.jpeg",
-                title="Cardio Intense",
-                description="Un programme intense axé sur le renforcement cardiovasculaire.",
-                category="Cardio",
+                icon="https://i.imgur.com/IRVJqkw.jpeg",
+                title="Bas du Corps Explosif",
+                description="Ce programme est conçu pour renforcer et tonifier les muscles des jambes et des fesses en utilisant des exercices explosifs.",
+                category="Bas du corps",
                 difficulty=4,
-                hint=["Restez hydraté pendant l'entraînement.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
-                exercises=["burpees", "jumpingjacks"]
+                hint=["Assure-toi de bien respirer pendant les exercices et concentre-toi sur la forme pour éviter les blessures.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
+                exercises=["squats", "lunges", "deadlift, jumpingjacks"]
             ),
             models.Progs(
                 owner=user_create.username,
                 id="default_2",
-                icon="https://i.imgur.com/2JMl5XB.jpeg",
-                title="Renfo du corps",
-                description="Un programme axé sur le renforcement des muscles du haut du corps.",
-                category="Haut du corps",
+                icon="https://i.imgur.com/BzzXIim.jpeg",
+                title="Cardio HIIT",
+                description="Cet entraînement cardiovasculaire haute intensité (HIIT) est parfait pour brûler des calories et améliorer ta condition physique globale.",
+                category="Cardio",
                 difficulty=3,
-                hint=["Assurez-vous de maintenir une bonne forme tout au long de l'exercice.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
-                exercises=["chinups", "dips"]
+                hint=["Faites attention à votre respiration et gardez un rythme soutenu tout au long de l'entraînement.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
+                exercises=["burpees", "jumpingjacks", "squats", "plank"]
             )
         ]
         
