@@ -28,8 +28,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
         
         hashed_password = bcrypt.hashpw(user_create.password.encode("utf-8"), bcrypt.gensalt())
         default_programs = [ # The two default programs
-            models.Progs(
-                owner=user_create.username,
+            models.DefaultProgs(
                 id="default_1",
                 icon="https://i.imgur.com/IRVJqkw.jpeg",
                 title="Bas du Corps Explosif",
@@ -39,8 +38,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
                 hint=["Assure-toi de bien respirer pendant les exercices et concentre-toi sur la forme pour éviter les blessures.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
                 exercises=["squats", "lunges", "deadlift", "jumpingjacks"]
             ),
-            models.Progs(
-                owner=user_create.username,
+            models.DefaultProgs(
                 id="default_2",
                 icon="https://i.imgur.com/BzzXIim.jpeg",
                 title="Cardio HIIT",
@@ -82,7 +80,7 @@ async def delete(username: str, db: db_dependency):
     try:
         user = db.query(models.Users).filter(models.Users.username == username).first()
         if user:
-            db.query(models.Progs).filter(models.Progs.owner == username).delete()
+            db.query(models.UsersProgs).filter(models.UsersProgs.owner == username).delete()
             db.delete(user)
             db.commit()
             return {"status": True, "message": "User and associated data deleted successfully"}
@@ -97,10 +95,13 @@ async def read_program(id: str, username: str, db: db_dependency):
         if not db.query(models.Users).filter(models.Users.username == username).first():
             raise HTTPException(status_code=404, detail="User not found")
  
+        default_progs = db.query(models.DefaultProgs).all()
+        user_progs = db.query(models.UsersProgs).filter(models.UsersProgs.owner == username).all()
+
         if id == "all":
-            return db.query(models.Progs).filter(models.Progs.owner == username).all()
+            return default_progs + user_progs
         else:
-            program = db.query(models.Progs).filter(models.Progs.owner == username, models.Progs.id == id).first()
+            program = db.query(models.UsersProgs).filter(models.UsersProgs.owner == username, models.UsersProgs.id == id).first()
             if program:
                 return program
             else:
@@ -112,7 +113,7 @@ async def read_program(id: str, username: str, db: db_dependency):
 async def add_program(username: str, program: schemas.ProgramBase, db: db_dependency):
     try:
         if db.query(models.Users).filter(models.Users.username == username).first():
-            new_program = models.Progs(
+            new_program = models.UsersProgs(
                 id=program.title.lower().replace(" ", "-"),
                 owner=username,
                 icon=program.icon,
@@ -137,7 +138,7 @@ async def add_program(username: str, program: schemas.ProgramBase, db: db_depend
 @app.put("/edit_program", tags=["Programs"])
 async def edit_program(username: str, program: schemas.ProgramBase, db: db_dependency):
     try:
-        existing_program = db.query(models.Progs).filter(models.Progs.owner == username, models.Progs.id == program.id).first()
+        existing_program = db.query(models.UsersProgs).filter(models.UsersProgs.owner == username, models.UsersProgs.id == program.id).first()
         if existing_program:
             existing_program.icon = program.icon
             existing_program.title = program.title
@@ -159,7 +160,7 @@ async def edit_program(username: str, program: schemas.ProgramBase, db: db_depen
 async def remove_program(username: str, id: str, db: db_dependency):
     try:
         if db.query(models.Users).filter(models.Users.username == username).first():
-            program = db.query(models.Progs).filter(models.Progs.id == id).first()
+            program = db.query(models.UsersProgs).filter(models.UsersProgs.id == id).first()
             if program:
                 db.delete(program)
                 db.commit()
