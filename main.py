@@ -100,6 +100,12 @@ async def read_program(id: str, username: str, db: db_dependency):
 
         if id == "all":
             return default_progs + user_progs
+        elif id.startswith("default_"):
+            default_prog = db.query(models.DefaultProgs).filter(models.DefaultProgs.id == id).first()
+            if default_prog:
+                return default_prog
+            else:
+                raise HTTPException(status_code=404, detail="Default program not found")
         else:
             program = db.query(models.UsersProgs).filter(models.UsersProgs.owner == username, models.UsersProgs.id == id).first()
             if program:
