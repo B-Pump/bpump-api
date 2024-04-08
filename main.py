@@ -27,32 +27,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
             raise HTTPException(status_code=400, detail="This user already exists")
         
         hashed_password = bcrypt.hashpw(user_create.password.encode("utf-8"), bcrypt.gensalt())
-        default_programs = [ # The two default programs
-            models.DefaultProgs(
-                id="default_1",
-                icon="https://i.imgur.com/IRVJqkw.jpeg",
-                title="Bas du Corps Explosif",
-                description="Ce programme est conçu pour renforcer et tonifier les muscles des jambes et des fesses en utilisant des exercices explosifs.",
-                category="Bas du corps",
-                difficulty=4,
-                hint=["Assure-toi de bien respirer pendant les exercices et concentre-toi sur la forme pour éviter les blessures.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
-                exercises=["squats", "lunges", "deadlift", "jumpingjacks"]
-            ),
-            models.DefaultProgs(
-                id="default_2",
-                icon="https://i.imgur.com/BzzXIim.jpeg",
-                title="Cardio HIIT",
-                description="Cet entraînement cardiovasculaire haute intensité (HIIT) est parfait pour brûler des calories et améliorer ta condition physique globale.",
-                category="Cardio",
-                difficulty=3,
-                hint=["Faites attention à votre respiration et gardez un rythme soutenu tout au long de l'entraînement.", "Écoutez votre corps et ajustez l'intensité si nécessaire."],
-                exercises=["burpees", "jumpingjacks", "squats", "plank"]
-            )
-        ]
-        
         db_user = models.Users(username=user_create.username, password=hashed_password.decode("utf-8"))
-
-        db.add_all(default_programs)
 
         db.add(db_user)
         db.commit()
