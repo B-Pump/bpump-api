@@ -4,6 +4,10 @@ from typing import List
 class UserBase(BaseModel):
     username: str
     password: str
+    weight: int
+    height: int
+    age: int
+    sex: str
 
 class ProgramBase(BaseModel):
     id: str
@@ -28,5 +32,5 @@ class ExerciseBase(BaseModel):
     security: List[str]
     needed: List[str]
     calories: int
-    camera: dict
+    camera: List[dict]
     projector: List[dict]

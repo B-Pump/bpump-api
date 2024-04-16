@@ -26,8 +26,18 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
         if db.query(models.Users).filter(models.Users.username == user_create.username).first():
             raise HTTPException(status_code=400, detail="This user already exists")
         
+        if user_create.sex != "m" or user_create.sex != "f":
+            raise HTTPException(status_code=400, detail="Sex must be 'm' or 'f'")
+        
         hashed_password = bcrypt.hashpw(user_create.password.encode("utf-8"), bcrypt.gensalt())
-        db_user = models.Users(username=user_create.username, password=hashed_password.decode("utf-8"))
+        db_user = models.Users(
+            username=user_create.username,
+            password=hashed_password.decode("utf-8"),
+            weight=user_create.weight,
+            height=user_create.height,
+            age=user_create.age,
+            sex=user_create.sex
+        )
 
         db.add(db_user)
         db.commit()
@@ -50,6 +60,36 @@ async def login(user_create: schemas.UserBase, db: db_dependency):
     except Exception as error:
         raise HTTPException(status_code=500, detail=f"Failed to log in. Error {str(error)}")
     
+@app.put("/edit_username", tags=["Authentification"])
+async def edit_username(old_username: str, new_username: str, db: db_dependency):
+    try:
+        user = db.query(models.Users).filter(models.Users.username == old_username).first()
+        if user:
+            user.username = new_username
+            db.commit()
+            return {"status": True, "message": "Username updated successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Failed to update username. Error {str(error)}")
+
+@app.put("/edit_password", tags=["Authentification"])
+async def edit_password(username: str, old_password: str, new_password: str, db: db_dependency):
+    try:
+        user = db.query(models.Users).filter(models.Users.username == username).first()
+        if user:
+            if bcrypt.checkpw(old_password.encode("utf-8"), user.password.encode("utf-8")):
+                hashed_new_password = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
+                user.password = hashed_new_password.decode("utf-8")
+                db.commit()
+                return {"status": True, "message": "Password updated successfully"}
+            else:
+                raise HTTPException(status_code=401, detail="Invalid old password")
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        raise HTTPException(status_code=500, detail=f"Failed to update password. Error {str(error)}")
+    
 @app.delete("/delete", tags=["Authentification"])
 async def delete(username: str, db: db_dependency):
     try:
@@ -63,7 +103,7 @@ async def delete(username: str, db: db_dependency):
             raise HTTPException(status_code=404, detail="User not found")
     except Exception as error:
         raise HTTPException(status_code=500, detail=f"Failed to delete user. Error {str(error)}")
-    
+
 @app.get("/progs/{id}", tags=["Programs"])
 async def read_program(id: str, username: str, db: db_dependency):
     try:
@@ -182,44 +222,3 @@ async def add_exercise(exercise: schemas.ExerciseBase, db: db_dependency):
     except Exception as error:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to add exercise. Error {str(error)}")
-    
-@app.put("/edit_exercise", tags=["Exercises"])
-async def edit_exercise(exercise: schemas.ExerciseBase, db: db_dependency):
-    try:
-        existing_exercise = db.query(models.Exos).filter(models.Exos.id == exercise.id).first()
-        if existing_exercise:
-            existing_exercise.icon = exercise.icon
-            existing_exercise.title = exercise.title
-            existing_exercise.description = exercise.description
-            existing_exercise.category = exercise.category
-            existing_exercise.difficulty = exercise.difficulty
-            existing_exercise.video = exercise.video
-            existing_exercise.muscles = exercise.muscles
-            existing_exercise.security = exercise.security
-            existing_exercise.needed = exercise.needed
-            existing_exercise.calories = exercise.calories
-            existing_exercise.camera = exercise.camera
-            existing_exercise.projector = exercise.projector
-
-            db.commit()
-            return {"status": True, "message": "Exercise updated successfully"}
-        else:
-            raise HTTPException(status_code=400, detail="Exercise not found")
-    except Exception as error:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to update exercise. Error {str(error)}")
-    
-@app.delete("/remove_exercise", tags=["Exercises"])
-async def remove_exercise(id: str, db: db_dependency):
-    try:
-        exercise = db.query(models.Exos).filter(models.Exos.id == id).first()
-        if exercise:
-            db.delete(exercise)
-            db.commit()
-
-            return {"status": True, "message": "Exercise removed successfully"}
-        else:
-            raise HTTPException(status_code=404, detail="Exercise not found")
-    except Exception as error:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to remove Exercise. Error {str(error)}")
