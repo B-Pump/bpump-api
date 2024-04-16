@@ -1,13 +1,17 @@
 from pydantic import BaseModel
 from typing import List
 
-class UserBase(BaseModel):
+class UserRegisterBase(BaseModel):
     username: str
     password: str
     weight: int
     height: int
     age: int
     sex: str
+
+class UserLoginBase(BaseModel):
+    username: str
+    password: str
 
 class ProgramBase(BaseModel):
     id: str

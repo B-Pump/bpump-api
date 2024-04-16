@@ -21,13 +21,10 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 @app.post("/register", tags=["Authentification"])
-async def register(user_create: schemas.UserBase, db: db_dependency):
+async def register(user_create: schemas.UserRegisterBase, db: db_dependency):
     try:
         if db.query(models.Users).filter(models.Users.username == user_create.username).first():
             raise HTTPException(status_code=400, detail="This user already exists")
-        
-        if user_create.sex != "m" or user_create.sex != "f":
-            raise HTTPException(status_code=400, detail="Sex must be 'm' or 'f'")
         
         hashed_password = bcrypt.hashpw(user_create.password.encode("utf-8"), bcrypt.gensalt())
         db_user = models.Users(
@@ -49,7 +46,7 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
         raise HTTPException(status_code=500, detail=f"Failed to register user. Error {str(error)}")
     
 @app.post("/login", tags=["Authentification"])
-async def login(user_create: schemas.UserBase, db: db_dependency):
+async def login(user_create: schemas.UserLoginBase, db: db_dependency):
     try:
         user = db.query(models.Users).filter(models.Users.username == user_create.username).first()
 
