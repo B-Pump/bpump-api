@@ -5,6 +5,12 @@ class UserBase(BaseModel):
     username: str
     password: str
 
+class MetabolismBase(BaseModel):
+    weight: int
+    height: int
+    age: int
+    sex: str
+
 class ProgramBase(BaseModel):
     id: str
     owner: str

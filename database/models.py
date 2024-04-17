@@ -7,10 +7,10 @@ class Users(Base):
     user_id = Column(Integer, primary_key=True, nullable=False)
     username = Column(String, index=True, unique=True, nullable=False)
     password = Column(String, nullable=False)
-    weight = Column(Integer, index=True, nullable=False)
-    height = Column(Integer, index=True, nullable=False)
-    age = Column(Integer, index=True, nullable=False)
-    sex = Column(String, index=True, nullable=False)
+    weight = Column(Integer, index=True)
+    height = Column(Integer, index=True)
+    age = Column(Integer, index=True)
+    sex = Column(String, index=True)
 
 class UsersProgs(Base):
     __tablename__ = "progs_users"

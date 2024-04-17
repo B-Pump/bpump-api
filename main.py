@@ -90,62 +90,37 @@ async def delete(username: str, db: db_dependency):
     except Exception as error:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to delete user. Error {str(error)}")
-    
-@app.put("/edit_weight", tags=["Metabolism"])
-async def edit_weight(username: str, new_weight: int, db: db_dependency):
-    try:
-        user = db.query(models.Users).filter(models.Users.username == username).first()
-        if user:
-            user.weight = new_weight
-            db.commit()
-            return {"status": True, "message": "User weight updated successfully"}
-        else:
-            raise HTTPException(status_code=404, detail="User not found")
-    except Exception as error:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to update weight. Error {str(error)}")
 
-@app.put("/edit_height", tags=["Metabolism"])
-async def edit_height(username: str, new_height: int, db: db_dependency):
+@app.get("/metabolism", tags=["Metabolism"])
+async def read_metabolism(username: str, db: db_dependency):
     try:
-        user = db.query(models.Users).filter(models.Users.username == username).first()
-        if user:
-            user.height = new_height
-            db.commit()
-            return {"status": True, "message": "User height updated successfully"}
+        if id == "all":
+            return db.query(models.Exos).all()
         else:
-            raise HTTPException(status_code=404, detail="User not found")
+            exercise = db.query(models.Exos).filter(models.Exos.id == id).first()
+            if exercise:
+                return exercise
+            else:
+                raise HTTPException(status_code=404, detail="Exercise not found")
     except Exception as error:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to update height. Error {str(error)}")
+        raise HTTPException(status_code=500, detail=f"Error while reading exercises. Error {str(error)}")
 
-@app.put("/edit_age", tags=["Metabolism"])
-async def edit_age(username: str, new_age: int, db: db_dependency):
+@app.put("/edit_metabolism", tags=["Metabolism"])
+async def edit_metabolism(username: str, new_values: schemas.MetabolismBase, db: db_dependency):
     try:
         user = db.query(models.Users).filter(models.Users.username == username).first()
         if user:
-            user.age = new_age
+            for key, value in new_values.items():
+                if hasattr(user, key):
+                    setattr(user, key, value)
+
             db.commit()
-            return {"status": True, "message": "User age updated successfully"}
+            return {"status": True, "message": f"Metabolism updated successfully"}
         else:
             raise HTTPException(status_code=404, detail="User not found")
     except Exception as error:
         db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to update age. Error {str(error)}")
-    
-@app.put("/edit_sex", tags=["Metabolism"])
-async def edit_sex(username: str, new_sex: str, db: db_dependency):
-    try:
-        user = db.query(models.Users).filter(models.Users.username == username).first()
-        if user:
-            user.sex = new_sex
-            db.commit()
-            return {"status": True, "message": "User sex updated successfully"}
-        else:
-            raise HTTPException(status_code=404, detail="User not found")
-    except Exception as error:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to update sex. Error {str(error)}")
+        raise HTTPException(status_code=500, detail=f"Failed to update metabolism. Error {str(error)}")
 
 @app.get("/progs/{id}", tags=["Programs"])
 async def read_program(id: str, username: str, db: db_dependency):
