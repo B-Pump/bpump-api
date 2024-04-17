@@ -97,10 +97,10 @@ async def read_metabolism(username: str, db: db_dependency):
         user = db.query(models.Users).filter(models.Users.username == username).first()
         if user:
             data = {
-                user.weight,
-                user.height,
-                user.age,
-                user.sex
+                "weight": user.weight,
+                "height": user.height,
+                "age": user.age,
+                "sex": user.sex
             }
             return data
         else:
