@@ -21,7 +21,7 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 @app.post("/register", tags=["Authentification"])
-async def register(user_create: schemas.UserRegisterBase, db: db_dependency):
+async def register(user_create: schemas.UserBase, db: db_dependency):
     try:
         if db.query(models.Users).filter(models.Users.username == user_create.username).first():
             raise HTTPException(status_code=400, detail="This user already exists")
@@ -30,10 +30,10 @@ async def register(user_create: schemas.UserRegisterBase, db: db_dependency):
         db_user = models.Users(
             username=user_create.username,
             password=hashed_password.decode("utf-8"),
-            weight=user_create.weight,
-            height=user_create.height,
-            age=user_create.age,
-            sex=user_create.sex
+            weight=0,
+            height=0,
+            age=0,
+            sex=""
         )
 
         db.add(db_user)
@@ -44,9 +44,9 @@ async def register(user_create: schemas.UserRegisterBase, db: db_dependency):
     except Exception as error:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to register user. Error {str(error)}")
-    
+
 @app.post("/login", tags=["Authentification"])
-async def login(user_create: schemas.UserLoginBase, db: db_dependency):
+async def login(user_create: schemas.UserBase, db: db_dependency):
     try:
         user = db.query(models.Users).filter(models.Users.username == user_create.username).first()
 
@@ -55,8 +55,9 @@ async def login(user_create: schemas.UserLoginBase, db: db_dependency):
         else:
             raise HTTPException(status_code=401, detail="Invalid credentials")
     except Exception as error:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to log in. Error {str(error)}")
-    
+
 @app.put("/edit_username", tags=["Authentification"])
 async def edit_username(old_username: str, new_username: str, db: db_dependency):
     try:
@@ -68,6 +69,7 @@ async def edit_username(old_username: str, new_username: str, db: db_dependency)
         else:
             raise HTTPException(status_code=404, detail="User not found")
     except Exception as error:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to update username. Error {str(error)}")
 
 @app.put("/edit_password", tags=["Authentification"])
@@ -85,8 +87,9 @@ async def edit_password(username: str, old_password: str, new_password: str, db:
         else:
             raise HTTPException(status_code=404, detail="User not found")
     except Exception as error:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to update password. Error {str(error)}")
-    
+
 @app.delete("/delete", tags=["Authentification"])
 async def delete(username: str, db: db_dependency):
     try:
@@ -99,7 +102,64 @@ async def delete(username: str, db: db_dependency):
         else:
             raise HTTPException(status_code=404, detail="User not found")
     except Exception as error:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to delete user. Error {str(error)}")
+    
+@app.put("/edit_weight", tags=["Metabolism"])
+async def edit_weight(username: str, new_weight: int, db: db_dependency):
+    try:
+        user = db.query(models.Users).filter(models.Users.username == username).first()
+        if user:
+            user.weight = new_weight
+            db.commit()
+            return {"status": True, "message": "User weight updated successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to update weight. Error {str(error)}")
+
+@app.put("/edit_height", tags=["Metabolism"])
+async def edit_height(username: str, new_height: int, db: db_dependency):
+    try:
+        user = db.query(models.Users).filter(models.Users.username == username).first()
+        if user:
+            user.height = new_height
+            db.commit()
+            return {"status": True, "message": "User height updated successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to update height. Error {str(error)}")
+
+@app.put("/edit_age", tags=["Metabolism"])
+async def edit_age(username: str, new_age: int, db: db_dependency):
+    try:
+        user = db.query(models.Users).filter(models.Users.username == username).first()
+        if user:
+            user.age = new_age
+            db.commit()
+            return {"status": True, "message": "User age updated successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to update age. Error {str(error)}")
+    
+@app.put("/edit_sex", tags=["Metabolism"])
+async def edit_sex(username: str, new_sex: str, db: db_dependency):
+    try:
+        user = db.query(models.Users).filter(models.Users.username == username).first()
+        if user:
+            user.sex = new_sex
+            db.commit()
+            return {"status": True, "message": "User sex updated successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
+    except Exception as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to update sex. Error {str(error)}")
 
 @app.get("/progs/{id}", tags=["Programs"])
 async def read_program(id: str, username: str, db: db_dependency):
@@ -126,7 +186,7 @@ async def read_program(id: str, username: str, db: db_dependency):
                 raise HTTPException(status_code=404, detail="Program not found")
     except Exception as error:
         raise HTTPException(status_code=500, detail=f"Error while reading programs. Error {str(error)}")
-    
+
 @app.post("/add_program", tags=["Programs"])
 async def add_program(username: str, program: schemas.ProgramBase, db: db_dependency):
     try:
@@ -152,7 +212,7 @@ async def add_program(username: str, program: schemas.ProgramBase, db: db_depend
     except Exception as error:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to add program. Error {str(error)}")
-    
+
 @app.put("/edit_program", tags=["Programs"])
 async def edit_program(username: str, program: schemas.ProgramBase, db: db_dependency):
     try:
@@ -173,7 +233,7 @@ async def edit_program(username: str, program: schemas.ProgramBase, db: db_depen
     except Exception as error:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to update program. Error {str(error)}")
-    
+
 @app.delete("/remove_program", tags=["Programs"])
 async def remove_program(username: str, id: str, db: db_dependency):
     try:
