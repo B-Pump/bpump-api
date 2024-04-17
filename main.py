@@ -58,20 +58,6 @@ async def login(user_create: schemas.UserBase, db: db_dependency):
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Failed to log in. Error {str(error)}")
 
-@app.put("/edit_username", tags=["Authentification"])
-async def edit_username(old_username: str, new_username: str, db: db_dependency):
-    try:
-        user = db.query(models.Users).filter(models.Users.username == old_username).first()
-        if user:
-            user.username = new_username
-            db.commit()
-            return {"status": True, "message": "Username updated successfully"}
-        else:
-            raise HTTPException(status_code=404, detail="User not found")
-    except Exception as error:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Failed to update username. Error {str(error)}")
-
 @app.put("/edit_password", tags=["Authentification"])
 async def edit_password(username: str, old_password: str, new_password: str, db: db_dependency):
     try:
