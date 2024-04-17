@@ -30,10 +30,10 @@ async def register(user_create: schemas.UserBase, db: db_dependency):
         db_user = models.Users(
             username=user_create.username,
             password=hashed_password.decode("utf-8"),
-            weight=0,
-            height=0,
-            age=0,
-            sex=""
+            weight=None,
+            height=None,
+            age=None,
+            sex=None
         )
 
         db.add(db_user)
@@ -94,25 +94,29 @@ async def delete(username: str, db: db_dependency):
 @app.get("/metabolism", tags=["Metabolism"])
 async def read_metabolism(username: str, db: db_dependency):
     try:
-        if id == "all":
-            return db.query(models.Exos).all()
+        user = db.query(models.Users).filter(models.Users.username == username).first()
+        if user:
+            data = {
+                user.weight,
+                user.height,
+                user.age,
+                user.sex
+            }
+            return data
         else:
-            exercise = db.query(models.Exos).filter(models.Exos.id == id).first()
-            if exercise:
-                return exercise
-            else:
-                raise HTTPException(status_code=404, detail="Exercise not found")
+            raise HTTPException(status_code=401, detail="User not found")
     except Exception as error:
-        raise HTTPException(status_code=500, detail=f"Error while reading exercises. Error {str(error)}")
+        raise HTTPException(status_code=500, detail=f"Failed to log in. Error {str(error)}")
 
 @app.put("/edit_metabolism", tags=["Metabolism"])
 async def edit_metabolism(username: str, new_values: schemas.MetabolismBase, db: db_dependency):
     try:
         user = db.query(models.Users).filter(models.Users.username == username).first()
         if user:
-            for key, value in new_values.items():
-                if hasattr(user, key):
-                    setattr(user, key, value)
+            user.height = new_values.height
+            user.weight = new_values.weight
+            user.age = new_values.age
+            user.sex = new_values.sex
 
             db.commit()
             return {"status": True, "message": f"Metabolism updated successfully"}
