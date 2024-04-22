@@ -53,6 +53,5 @@ class Exos(Base):
     muscles = Column(JSON, nullable=False)
     security = Column(JSON, nullable=False)
     needed = Column(JSON, nullable=False)
-    calories = Column(Integer, nullable=False)
     camera = Column(JSON, nullable=False)
     projector = Column(JSON, nullable=False)

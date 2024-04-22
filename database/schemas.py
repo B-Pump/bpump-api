@@ -33,6 +33,5 @@ class ExerciseBase(BaseModel):
     muscles: List[str]
     security: List[str]
     needed: List[str]
-    calories: int
     camera: List[dict]
     projector: List[dict]
