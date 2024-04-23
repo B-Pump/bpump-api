@@ -21,6 +21,7 @@ class ProgramBase(BaseModel):
     difficulty: int
     hint: List[str]
     exercises: List[str]
+    rest: List[int]
 
 class ExerciseBase(BaseModel):
     id: str

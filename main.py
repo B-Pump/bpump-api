@@ -165,7 +165,8 @@ async def add_program(username: str, program: schemas.ProgramBase, db: db_depend
                 category=program.category,
                 difficulty=program.difficulty,
                 hint=program.hint,
-                exercises=program.exercises
+                exercises=program.exercises,
+                rest=program.rest
             )
 
             db.add(new_program)

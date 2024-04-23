@@ -25,6 +25,7 @@ class UsersProgs(Base):
     difficulty = Column(Integer, nullable=False)
     hint = Column(JSON, nullable=False)
     exercises = Column(JSON, nullable=False)
+    rest = Column(JSON, nullable=False)
 
 class DefaultProgs(Base):
     __tablename__ = "progs_default"
@@ -38,6 +39,7 @@ class DefaultProgs(Base):
     difficulty = Column(Integer, nullable=False)
     hint = Column(JSON, nullable=False)
     exercises = Column(JSON, nullable=False)
+    rest = Column(JSON, nullable=False)
 
 class Exos(Base):
     __tablename__ = "exos"
